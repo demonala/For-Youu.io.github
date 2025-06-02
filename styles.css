@@ -1,0 +1,269 @@
+/* Global Styles & Resets */
+:root {
+    --bg-color: #0c0a1d; /* Deepest space blue/purple */
+    --text-color: #e0e7ff; /* Pale lavender for body text */
+    --title-font: 'Parisienne', cursive; /* Romantic, flowing script for titles */
+    --body-font: 'Poppins', sans-serif;
+    --accent-glow: #ff00ff; /* Magenta glow */
+    --secondary-glow: #00ffff; /* Cyan glow */
+    --star-color-1: #ffffff;
+    --star-color-2: #ffeeaa;
+    --card-bg: rgba(25, 20, 60, 0.65); /* Translucent deep purple, slightly less transparent */
+    --glass-blur: 8px; /* Slightly less blur for performance on some devices */
+    --border-color: rgba(255, 0, 255, 0.35); /* Magenta border */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--body-font);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative; /* For pseudo-elements like stars-bg */
+}
+
+.stars-bg { /* Animated star effect */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* Behind everything */
+    background-image:
+        radial-gradient(1.5px 1.5px at 10% 20%, var(--star-color-1), transparent),
+        radial-gradient(1px 1px at 80% 30%, var(--star-color-2), transparent),
+        radial-gradient(2px 2px at 50% 50%, var(--star-color-1), transparent),
+        radial-gradient(1.5px 1.5px at 25% 70%, var(--star-color-2), transparent),
+        radial-gradient(1px 1px at 70% 85%, var(--star-color-1), transparent),
+        radial-gradient(2.5px 2.5px at 30% 90%, var(--star-color-1), transparent),
+        radial-gradient(1px 1px at 90% 75%, var(--star-color-2), transparent);
+    background-size: 250px 250px, 350px 350px; /* Varied sizes */
+    animation: twinkle 20s linear infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { background-position: 0 0, 0 0; opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { background-position: 150px 250px, -150px -200px; opacity: 0.6; }
+}
+
+/* Main container with glassmorphism */
+.container {
+    background: var(--card-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border-radius: 25px; /* Softer radius */
+    padding: clamp(20px, 5vw, 40px); /* Responsive padding */
+    width: 100%;
+    max-width: 750px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0,0,0,0.6), 0 0 25px var(--accent-glow) inset;
+    border: 1.5px solid var(--border-color);
+    position: relative;
+    z-index: 1;
+    animation: fadeInContainer 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes fadeInContainer {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+header h1 {
+    font-family: var(--title-font);
+    color: #f8d8ff; /* Lighter, dreamier pink/lavender */
+    font-size: clamp(2.2rem, 7vw, 3.8rem);
+    margin-bottom: 35px;
+    text-shadow: 0 0 12px var(--accent-glow), 0 0 22px var(--accent-glow), 0 0 8px #fff;
+    animation: pulseTitle 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseTitle {
+    from { text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow), 0 0 5px #fff; transform: scale(1); }
+    to { text-shadow: 0 0 18px var(--accent-glow), 0 0 30px var(--accent-glow), 0 0 10px #fff; transform: scale(1.02);}
+}
+
+.reasons-container {
+    margin-bottom: 35px;
+    background-image: url('https://images.unsplash.com/photo-1538370965046-79c0d6907d47?q=80&w=1200&auto=format&fit=crop'); /* Dreamy space - REPLACE THIS URL with your chosen image */
+    background-size: cover;
+    background-position: center center;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4) inset, 0 0 10px var(--secondary-glow);
+    border: 1px solid rgba(0, 255, 255, 0.2); /* Cyan border */
+}
+
+.reason {
+    margin-bottom: 18px;
+    padding: 12px 15px;
+    background: rgba(0,0,0,0.4); /* Darker overlay for text readability */
+    border-radius: 10px;
+    animation: slideInReason 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+/* Stagger animation for reasons */
+.reason:nth-child(1) { animation-delay: 0.6s; }
+.reason:nth-child(2) { animation-delay: 0.9s; }
+.reason:nth-child(3) { animation-delay: 1.2s; }
+.reason:nth-child(4) { animation-delay: 1.5s; }
+.reason:nth-child(5) { animation-delay: 1.8s; }
+
+@keyframes slideInReason {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.reason p {
+    font-size: clamp(1rem, 2.8vw, 1.2rem);
+    line-height: 1.7;
+    color: #f0f4ff; /* Brighter white/light blue for text */
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}
+
+.special-reason .kidding {
+    /* font-style: italic; */ /* Optional styling */
+}
+
+.special-reason .sub-text {
+    font-size: 0.8em; /* Even smaller */
+    color: #ffb3c6; /* Softer pink for this special text */
+    margin-top: 6px;
+    font-weight: 600;
+    display: inline-block; /* To allow text-shadow to look better if added */
+    text-shadow: 0 0 5px #ff0055; /* Subtle matching glow */
+}
+
+/* Pray Section */
+.pray-section {
+    margin-top: 25px;
+    margin-bottom: 35px;
+    animation: fadeInSection 1s ease-out forwards;
+    animation-delay: 2.2s;
+    opacity: 0;
+}
+
+@keyframes fadeInSection {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.pray-button {
+    font-family: var(--body-font);
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 15px 35px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent-glow), var(--secondary-glow), #9f00ff); /* More vibrant gradient */
+    color: #ffffff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.5s ease;
+    text-shadow: 0 0 8px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 20px rgba(255,0,255,0.35), 0 6px 20px rgba(0,255,255,0.35);
+    background-size: 200% 200%; /* For gradient animation */
+    animation: gradientFlow 4s ease infinite;
+}
+
+@keyframes gradientFlow {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+.pray-button:hover {
+    transform: scale(1.1) translateY(-4px);
+    box-shadow: 0 12px 30px rgba(255,0,255,0.5), 0 12px 30px rgba(0,255,255,0.5);
+}
+
+.pray-text {
+    margin-top: 18px;
+    font-size: 1rem;
+    font-style: italic;
+    color: #d8d0f0; /* Lighter, ethereal lavender */
+    opacity: 0.9;
+}
+
+/* Music Player Section */
+.music-player {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    animation: fadeInSection 1s ease-out forwards;
+    animation-delay: 2.4s; /* Delay after pray section */
+    opacity: 0;
+}
+.music-player .music-note {
+    font-size: 0.9rem;
+    color: var(--secondary-glow);
+    margin-bottom: 10px;
+}
+.music-player audio {
+    width: 100%;
+    max-width: 400px; /* Limit player width */
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+    filter: hue-rotate(180deg) contrast(120%); /* Cool effect on player */
+}
+
+
+/* Footer */
+footer {
+    margin-top: 30px;
+    font-size: 0.95rem;
+    color: rgba(224, 231, 255, 0.75);
+    animation: fadeInSection 1s ease-out forwards;
+    animation-delay: 2.6s; /* Delay after music */
+    opacity: 0;
+}
+
+footer .signature-from {
+    font-family: var(--title-font);
+    font-size: 1.8em;
+    color: #f8d8ff;
+    margin-bottom: 5px;
+    text-shadow: 0 0 8px var(--accent-glow);
+}
+.signature-for {
+    font-style: italic;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+        margin: 10px auto;
+    }
+    header h1 {
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
+    }
+    .reason p {
+        font-size: 0.95rem;
+    }
+    .pray-button {
+        font-size: 1.1rem;
+        padding: 12px 30px;
+    }
+    .music-player audio {
+        max-width: 100%;
+    }
+}
